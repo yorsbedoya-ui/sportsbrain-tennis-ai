@@ -19,11 +19,10 @@ class TennisXGBoost:
         self.model.fit(
             X_train, y_train,
             eval_set=[(X_val, y_val)],
-            early_stopping_rounds=50,
             verbose=False
         )
         # Platt Scaling
-        self.calibrated_model = CalibratedClassifierCV(self.model, method='sigmoid', cv='prefit')
+        self.calibrated_model = CalibratedClassifierCV(self.model, method='sigmoid', cv=2)
         self.calibrated_model.fit(X_val, y_val)
 
     def predict_proba(self, X):
