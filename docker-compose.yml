@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sportsbrain
+      POSTGRES_PASSWORD: sportsbrain_pwd
+      POSTGRES_DB: sportsbrain_tennis
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  api:
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    env_file: .env
+
+  worker:
+    build: .
+    command: celery -A data_ingestion.tennis.scheduler worker -c 4 --loglevel=info
+    depends_on:
+      - redis
+      - postgres
+    env_file: .env
+
+  beat:
+    build: .
+    command: celery -A data_ingestion.tennis.scheduler beat --loglevel=info
+    depends_on:
+      - redis
+    env_file: .env
+
+  flower:
+    image: mher/flower
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+
+volumes:
+  pgdata:

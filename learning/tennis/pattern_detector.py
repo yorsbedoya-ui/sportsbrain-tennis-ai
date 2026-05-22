@@ -1,0 +1,1 @@
+class PatternDetector:\n    pass

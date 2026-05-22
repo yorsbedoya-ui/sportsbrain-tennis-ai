@@ -1,0 +1,1 @@
+class MetricsCalculator:\n    pass

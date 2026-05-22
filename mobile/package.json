@@ -1,0 +1,1 @@
+{\n  "name": "sportsbrain-mobile",\n  "main": "node_modules/expo/AppEntry.js",\n  "dependencies": {\n    "expo": "~51.0.0",\n    "react-native": "0.74.1",\n    "@react-navigation/native": "^6.1.9"\n  }\n}

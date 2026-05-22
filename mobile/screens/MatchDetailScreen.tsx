@@ -1,0 +1,1 @@
+// Match detail with gauge and factors\n

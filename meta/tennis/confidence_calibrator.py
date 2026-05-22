@@ -1,0 +1,1 @@
+class ConfidenceCalibrator:\n    pass
