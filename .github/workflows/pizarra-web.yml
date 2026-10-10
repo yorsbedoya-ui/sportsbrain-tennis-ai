@@ -29,6 +29,7 @@ jobs:
       - name: Calcular pronósticos
         run: |
           set -o pipefail
+          mkdir -p pizarra/web
           python pizarra/app/pronosticos.py /tmp/openfootball pizarra/app/template.html pizarra/web/index.html \
             "$(date -u +%Y-%m-%d)" --fd pizarra/data/fd --hist pizarra/data/historial.json 2>&1 | tail -60 > pizarra/web/_registro.txt
           grep -q "const DATA =" pizarra/web/index.html
