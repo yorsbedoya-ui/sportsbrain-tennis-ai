@@ -1,0 +1,66 @@
+Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,Status
+21/08/2026,21:00,Arsenal,Coventry City,3,0,FT
+22/08/2026,13:30,Hull City,Manchester United,2,0,FT
+22/08/2026,16:00,Everton,Crystal Palace,2,0,FT
+22/08/2026,16:00,Ipswich Town,Sunderland,2,1,FT
+22/08/2026,16:00,Nottingham Forest,Leeds United,0,1,FT
+22/08/2026,18:30,Brentford,Tottenham Hotspur,3,0,FT
+23/08/2026,15:00,Brighton & Hove Albion,Aston Villa,4,0,FT
+23/08/2026,15:00,Manchester City,AFC Bournemouth,2,1,FT
+23/08/2026,17:30,Newcastle United,Liverpool,2,2,FT
+24/08/2026,21:00,Fulham,Chelsea,2,3,FT
+28/08/2026,21:00,Crystal Palace,Manchester City,1,4,FT
+29/08/2026,13:30,Liverpool,Nottingham Forest,2,2,FT
+29/08/2026,16:00,AFC Bournemouth,Everton,1,1,FT
+29/08/2026,16:00,Coventry City,Hull City,0,1,FT
+29/08/2026,18:30,Tottenham Hotspur,Newcastle United,0,2,FT
+30/08/2026,15:00,Chelsea,Brighton & Hove Albion,4,3,FT
+30/08/2026,15:00,Leeds United,Brentford,1,1,FT
+30/08/2026,15:00,Sunderland,Fulham,1,0,FT
+30/08/2026,17:30,Manchester United,Ipswich Town,5,2,FT
+31/08/2026,21:00,Aston Villa,Arsenal,0,1,FT
+04/09/2026,21:00,Ipswich Town,Liverpool,0,2,FT
+05/09/2026,13:30,Newcastle United,AFC Bournemouth,2,2,FT
+05/09/2026,16:00,Brentford,Sunderland,1,1,FT
+05/09/2026,16:00,Brighton & Hove Albion,Leeds United,1,1,FT
+05/09/2026,16:00,Fulham,Crystal Palace,2,3,FT
+05/09/2026,16:00,Manchester City,Coventry City,1,0,FT
+05/09/2026,16:00,Nottingham Forest,Tottenham Hotspur,0,0,FT
+05/09/2026,18:30,Hull City,Aston Villa,0,0,FT
+06/09/2026,15:00,Everton,Manchester United,2,2,FT
+06/09/2026,17:30,Arsenal,Chelsea,2,1,FT
+12/09/2026,16:00,AFC Bournemouth,Brentford,2,2,FT
+12/09/2026,16:00,Aston Villa,Nottingham Forest,1,2,FT
+12/09/2026,16:00,Chelsea,Hull City,2,2,FT
+12/09/2026,16:00,Crystal Palace,Ipswich Town,2,3,FT
+12/09/2026,16:00,Liverpool,Fulham,0,0,FT
+12/09/2026,18:30,Tottenham Hotspur,Everton,0,0,FT
+12/09/2026,21:00,Sunderland,Arsenal,0,2,FT
+13/09/2026,15:00,Coventry City,Brighton & Hove Albion,0,5,FT
+13/09/2026,17:30,Manchester United,Manchester City,0,1,FT
+14/09/2026,21:00,Leeds United,Newcastle United,4,1,FT
+18/09/2026,21:00,Brentford,Chelsea,3,0,FT
+19/09/2026,13:30,Tottenham Hotspur,Aston Villa,2,3,FT
+19/09/2026,16:00,Brighton & Hove Albion,Arsenal,3,0,FT
+19/09/2026,16:00,Everton,Ipswich Town,1,0,FT
+19/09/2026,16:00,Newcastle United,Hull City,2,1,FT
+19/09/2026,18:30,Nottingham Forest,Coventry City,0,1,FT
+20/09/2026,15:00,AFC Bournemouth,Liverpool,0,1,FT
+20/09/2026,15:00,Leeds United,Crystal Palace,0,0,FT
+20/09/2026,15:00,Manchester City,Sunderland,5,3,FT
+20/09/2026,17:30,Fulham,Manchester United,1,1,FT
+10/10/2026,13:30,Arsenal,Leeds United,,,NS
+10/10/2026,16:00,Aston Villa,Brentford,,,NS
+10/10/2026,16:00,Chelsea,AFC Bournemouth,,,NS
+10/10/2026,16:00,Ipswich Town,Fulham,,,NS
+10/10/2026,16:00,Sunderland,Brighton & Hove Albion,,,NS
+10/10/2026,18:30,Manchester United,Tottenham Hotspur,,,NS
+11/10/2026,15:00,Crystal Palace,Nottingham Forest,,,NS
+11/10/2026,15:00,Hull City,Everton,,,NS
+11/10/2026,17:30,Liverpool,Manchester City,,,NS
+12/10/2026,21:00,Coventry City,Newcastle United,,,NS
+17/10/2026,13:30,Everton,Chelsea,,,NS
+17/10/2026,16:00,Brentford,Liverpool,,,NS
+17/10/2026,16:00,Fulham,Hull City,,,NS
+17/10/2026,16:00,Manchester City,Ipswich Town,,,NS
+17/10/2026,18:30,Newcastle United,Aston Villa,,,NS

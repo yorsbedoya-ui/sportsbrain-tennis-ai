@@ -1,0 +1,65 @@
+Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,Status
+22/08/2026,18:30,Internazionale,Monza,4,1,FT
+22/08/2026,18:30,Udinese,Como,1,1,FT
+22/08/2026,20:45,Genoa,Napoli,0,2,FT
+22/08/2026,20:45,Parma,Cagliari,0,1,FT
+23/08/2026,18:30,Frosinone,Juventus,0,1,FT
+23/08/2026,18:30,Venezia,Lecce,0,2,FT
+23/08/2026,20:45,Atalanta,Sassuolo,2,1,FT
+23/08/2026,20:45,Torino,AC Milan,1,2,FT
+24/08/2026,18:30,Bologna,Lazio,0,1,FT
+24/08/2026,20:45,AS Roma,Fiorentina,4,0,FT
+28/08/2026,20:45,AC Milan,Venezia,2,0,FT
+29/08/2026,18:30,Fiorentina,Frosinone,0,3,FT
+29/08/2026,18:30,Monza,Udinese,2,3,FT
+29/08/2026,18:30,Sassuolo,Torino,2,1,FT
+29/08/2026,20:45,Juventus,Parma,2,0,FT
+30/08/2026,18:30,Napoli,Como,1,2,FT
+30/08/2026,20:45,Cagliari,Internazionale,0,1,FT
+30/08/2026,20:45,Lazio,Genoa,1,0,FT
+31/08/2026,18:30,Lecce,AS Roma,0,4,FT
+31/08/2026,20:45,Atalanta,Bologna,1,0,FT
+04/09/2026,20:45,Genoa,Como,1,4,FT
+05/09/2026,15:00,Fiorentina,Torino,1,2,FT
+05/09/2026,18:00,Internazionale,Napoli,3,2,FT
+05/09/2026,20:45,AS Roma,Atalanta,2,1,FT
+06/09/2026,15:00,Frosinone,Venezia,3,2,FT
+06/09/2026,15:00,Parma,Monza,1,1,FT
+06/09/2026,18:00,Bologna,Sassuolo,2,2,FT
+06/09/2026,20:45,Juventus,AC Milan,1,1,FT
+07/09/2026,18:30,Cagliari,Lecce,1,0,FT
+07/09/2026,20:45,Udinese,Lazio,1,2,FT
+11/09/2026,20:45,Venezia,Fiorentina,2,4,FT
+12/09/2026,15:00,Genoa,Frosinone,1,1,FT
+12/09/2026,18:00,Lazio,AC Milan,2,2,FT
+12/09/2026,20:45,Atalanta,Cagliari,1,2,FT
+13/09/2026,15:00,Lecce,Monza,3,2,FT
+13/09/2026,18:00,Napoli,Bologna,1,0,FT
+13/09/2026,20:45,Sassuolo,Juventus,3,2,FT
+14/09/2026,18:30,Como,Parma,2,1,FT
+14/09/2026,18:30,Torino,AS Roma,0,2,FT
+14/09/2026,20:45,Internazionale,Udinese,5,3,FT
+18/09/2026,20:45,Monza,Sassuolo,2,1,FT
+19/09/2026,15:00,Bologna,Torino,1,1,FT
+19/09/2026,15:00,Udinese,Cagliari,0,1,FT
+19/09/2026,18:00,AS Roma,Internazionale,2,2,FT
+19/09/2026,20:45,Venezia,Lazio,0,2,FT
+20/09/2026,12:30,Fiorentina,Napoli,1,1,FT
+20/09/2026,15:00,Frosinone,Como,2,0,FT
+20/09/2026,15:00,Parma,Genoa,2,1,FT
+20/09/2026,18:00,Juventus,Atalanta,2,0,FT
+20/09/2026,20:45,AC Milan,Lecce,3,0,FT
+10/10/2026,15:00,Genoa,Fiorentina,,,NS
+10/10/2026,18:00,Internazionale,Parma,,,NS
+10/10/2026,20:45,Napoli,Frosinone,,,NS
+11/10/2026,12:30,Como,AS Roma,,,NS
+11/10/2026,15:00,Lazio,Monza,,,NS
+11/10/2026,15:00,Lecce,Bologna,,,NS
+11/10/2026,18:00,Sassuolo,AC Milan,,,NS
+11/10/2026,20:45,Cagliari,Juventus,,,NS
+12/10/2026,18:30,Atalanta,Venezia,,,NS
+12/10/2026,20:45,Torino,Udinese,,,NS
+16/10/2026,20:45,Frosinone,Sassuolo,,,NS
+17/10/2026,15:00,Venezia,Napoli,,,NS
+17/10/2026,18:00,Bologna,Internazionale,,,NS
+17/10/2026,20:45,AS Roma,Genoa,,,NS
