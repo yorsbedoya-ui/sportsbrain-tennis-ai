@@ -9,7 +9,7 @@ from datetime import date, datetime, timedelta, timezone
 LEAGUES = {"E0": "eng.1", "E1": "eng.2", "SP1": "esp.1", "I1": "ita.1",
            "D1": "ger.1", "F1": "fra.1", "P1": "por.1", "N1": "ned.1"}
 OUT = os.path.join(os.path.dirname(__file__), "data", "live")
-API = "https://site.api.espn.com/apis/site/v2/sports/soccer/{lg}/scoreboard?dates={a}-{b}&limit=1000"
+API = "https://site.api.espn.com/apis/site/v2/sports/soccer/{lg}/scoreboard?dates={d}"
 
 LOG = []
 def log(*a):
@@ -27,40 +27,49 @@ def get(url):
         time.sleep(2)
     return None
 
+def parse(js):
+    out = []
+    for ev in (js or {}).get("events", []):
+        try:
+            comp = ev["competitions"][0]
+            h = next(c for c in comp["competitors"] if c["homeAway"] == "home")
+            w = next(c for c in comp["competitors"] if c["homeAway"] == "away")
+            dt = datetime.fromisoformat(ev["date"].replace("Z", "+00:00")).astimezone(timezone(timedelta(hours=2)))
+            st = comp["status"]["type"]
+            status = "FT" if st.get("completed") else ("LIVE" if st.get("state") == "in" else "NS")
+            out.append(dict(Date=dt.strftime("%d/%m/%Y"), Time=dt.strftime("%H:%M"),
+                            HomeTeam=h["team"]["displayName"], AwayTeam=w["team"]["displayName"],
+                            FTHG=h.get("score", "") if status != "NS" else "",
+                            FTAG=w.get("score", "") if status != "NS" else "", Status=status))
+        except (KeyError, StopIteration, ValueError) as e:
+            log("  evento ignorado:", repr(e)[:120])
+    return out
+
+FIELDS = ["Date", "Time", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "Status"]
 today = date.today()
-start = date(today.year if today.month >= 7 else today.year - 1, 7, 15)
-end = today + timedelta(days=7)
+season_start = date(today.year if today.month >= 7 else today.year - 1, 7, 20)
 os.makedirs(OUT, exist_ok=True)
 ok = 0
 for div, lg in LEAGUES.items():
-    rows = []
-    # en tramos de 30 días para no pedir demasiado de golpe
-    a = start
-    while a <= end:
-        b = min(a + timedelta(days=29), end)
-        js = get(API.format(lg=lg, a=a.strftime("%Y%m%d"), b=b.strftime("%Y%m%d")))
-        for ev in (js or {}).get("events", []):
-            try:
-                comp = ev["competitions"][0]
-                h = next(c for c in comp["competitors"] if c["homeAway"] == "home")
-                w = next(c for c in comp["competitors"] if c["homeAway"] == "away")
-                dt = datetime.fromisoformat(ev["date"].replace("Z", "+00:00")).astimezone(timezone(timedelta(hours=2)))
-                st = comp["status"]["type"]
-                status = "FT" if st.get("completed") else ("LIVE" if st.get("state") == "in" else "NS")
-                rows.append(dict(Date=dt.strftime("%d/%m/%Y"), Time=dt.strftime("%H:%M"),
-                                 HomeTeam=h["team"]["displayName"], AwayTeam=w["team"]["displayName"],
-                                 FTHG=h.get("score", "") if status != "NS" else "",
-                                 FTAG=w.get("score", "") if status != "NS" else "", Status=status))
-            except (KeyError, StopIteration, ValueError) as e:
-                log("  evento ignorado:", repr(e)[:120])
-        a = b + timedelta(days=1)
-    if rows:
-        uniq = {(r["Date"], r["HomeTeam"], r["AwayTeam"]): r for r in rows}
-        with open(os.path.join(OUT, f"{div}.csv"), "w", newline="", encoding="utf-8") as f:
-            wr = csv.DictWriter(f, fieldnames=list(rows[0].keys())); wr.writeheader(); wr.writerows(uniq.values())
+    path = os.path.join(OUT, f"{div}.csv")
+    old = {}
+    if os.path.exists(path):
+        for r in csv.DictReader(open(path, encoding="utf-8")):
+            old[(r["Date"], r["HomeTeam"], r["AwayTeam"])] = r
+    # primera vez: toda la temporada; después: últimos 3 días + próximos 7
+    first = (today - timedelta(days=3)) if old else season_start
+    d, fails, new = first, 0, 0
+    while d <= today + timedelta(days=7):
+        js = get(API.format(lg=lg, d=d.strftime("%Y%m%d")))
+        if js is None: fails += 1
+        for r in parse(js):
+            old[(r["Date"], r["HomeTeam"], r["AwayTeam"])] = r; new += 1
+        d += timedelta(days=1)
+    if old:
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            wr = csv.DictWriter(f, fieldnames=FIELDS); wr.writeheader()
+            wr.writerows(sorted(old.values(), key=lambda r: (r["Date"][6:] + r["Date"][3:5] + r["Date"][:2], r["Time"])))
         ok += 1
-        log(div, len(uniq), "partidos,", sum(r["Status"] == "FT" for r in uniq.values()), "terminados")
-    else:
-        log(div, "sin partidos")
+    log(div, f"desde {first}:", new, "leídos,", len(old), "en total,", sum(r["Status"] == "FT" for r in old.values()), "terminados,", fails, "días con error")
 log("ligas guardadas:", ok, "| hora UTC", datetime.now(timezone.utc).isoformat(timespec="minutes"))
 open(os.path.join(OUT, "_registro.txt"), "w").write("\n".join(LOG[-200:]) + "\n")
