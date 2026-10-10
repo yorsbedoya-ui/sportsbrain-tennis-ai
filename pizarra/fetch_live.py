@@ -3,7 +3,7 @@ Descarga todos los partidos de la temporada actual de 8 ligas y guarda
 pizarra/data/live/<DIV>.csv con: Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,Status
 Status: FT (terminado), LIVE (en juego), NS (no empezado).
 """
-import csv, json, os, sys, time, urllib.request
+import csv, json, os, sys, time, urllib.request, urllib.error
 from datetime import date, datetime, timedelta, timezone
 
 LEAGUES = {"E0": "eng.1", "E1": "eng.2", "SP1": "esp.1", "I1": "ita.1",
@@ -11,13 +11,20 @@ LEAGUES = {"E0": "eng.1", "E1": "eng.2", "SP1": "esp.1", "I1": "ita.1",
 OUT = os.path.join(os.path.dirname(__file__), "data", "live")
 API = "https://site.api.espn.com/apis/site/v2/sports/soccer/{lg}/scoreboard?dates={a}-{b}&limit=1000"
 
+LOG = []
+def log(*a):
+    s = " ".join(str(x) for x in a); print(s); LOG.append(s)
+
 def get(url):
-    for i in range(3):
+    for i in range(2):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 pizarra-datos"})
-            return json.loads(urllib.request.urlopen(req, timeout=60).read())
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 pizarra-datos", "Accept": "application/json"})
+            return json.loads(urllib.request.urlopen(req, timeout=30).read())
+        except urllib.error.HTTPError as e:
+            log("  HTTP", e.code, url, e.read()[:200])
         except Exception as e:
-            print("  fallo", url, e); time.sleep(5)
+            log("  fallo", url, repr(e)[:200])
+        time.sleep(2)
     return None
 
 today = date.today()
@@ -27,10 +34,10 @@ os.makedirs(OUT, exist_ok=True)
 ok = 0
 for div, lg in LEAGUES.items():
     rows = []
-    # en tramos de 60 días para no pedir demasiado de golpe
+    # en tramos de 30 días para no pedir demasiado de golpe
     a = start
     while a <= end:
-        b = min(a + timedelta(days=59), end)
+        b = min(a + timedelta(days=29), end)
         js = get(API.format(lg=lg, a=a.strftime("%Y%m%d"), b=b.strftime("%Y%m%d")))
         for ev in (js or {}).get("events", []):
             try:
@@ -45,13 +52,15 @@ for div, lg in LEAGUES.items():
                                  FTHG=h.get("score", "") if status != "NS" else "",
                                  FTAG=w.get("score", "") if status != "NS" else "", Status=status))
             except (KeyError, StopIteration, ValueError) as e:
-                print("  evento ignorado:", e)
+                log("  evento ignorado:", repr(e)[:120])
         a = b + timedelta(days=1)
     if rows:
         uniq = {(r["Date"], r["HomeTeam"], r["AwayTeam"]): r for r in rows}
         with open(os.path.join(OUT, f"{div}.csv"), "w", newline="", encoding="utf-8") as f:
             wr = csv.DictWriter(f, fieldnames=list(rows[0].keys())); wr.writeheader(); wr.writerows(uniq.values())
         ok += 1
-        print(div, len(uniq), "partidos,", sum(r["Status"] == "FT" for r in uniq.values()), "terminados")
-print("ligas guardadas:", ok)
-sys.exit(0 if ok else 1)
+        log(div, len(uniq), "partidos,", sum(r["Status"] == "FT" for r in uniq.values()), "terminados")
+    else:
+        log(div, "sin partidos")
+log("ligas guardadas:", ok, "| hora UTC", datetime.now(timezone.utc).isoformat(timespec="minutes"))
+open(os.path.join(OUT, "_registro.txt"), "w").write("\n".join(LOG[-200:]) + "\n")
