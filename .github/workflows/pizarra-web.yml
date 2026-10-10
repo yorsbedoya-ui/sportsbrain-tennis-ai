@@ -1,0 +1,55 @@
+name: Pizarra - web
+
+on:
+  schedule:
+    - cron: "27 * * * *"   # cada hora, 20 min después de bajar resultados
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pizarra-datos
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar librerías
+        run: pip install numpy scipy
+      - name: Datos base (openfootball)
+        run: git clone --depth 1 https://github.com/openfootball/football.json.git /tmp/openfootball
+      - name: Calcular pronósticos
+        run: |
+          python pizarra/app/pronosticos.py /tmp/openfootball pizarra/app/template.html pizarra/web/index.html \
+            "$(date -u +%Y-%m-%d)" --fd pizarra/data/fd --hist pizarra/data/historial.json
+          grep -q "const DATA =" pizarra/web/index.html
+      - name: Guardar historial y página
+        run: |
+          git config user.name "pizarra-bot"
+          git config user.email "pizarra-bot@users.noreply.github.com"
+          git add pizarra/web pizarra/data/historial.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Pizarra web $(date -u +%Y-%m-%dT%H:%M)"
+          git pull --rebase origin main
+          git push
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pizarra/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
